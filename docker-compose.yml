@@ -1,0 +1,34 @@
+version: '2.0'
+services:
+  db:
+    image: postgres
+  elasticsearch:
+    image: elasticsearch:alpine
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+  web:
+    build: .
+    environment:
+      - RAILS_ENV=development
+      - ELASTICSEARCH_HOST=elasticsearch
+      - POSTGRESQL_HOST=db
+      - POSTGRESQL_PASSWORD=
+      - POSTGRESQL_USERNAME=postgres
+      - RABBITMQ_HOST=rabbit
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_VHOST=/
+    volumes:
+      - .:/spectre
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - elasticsearch
+      - rabbit
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+volumes:
+  elasticsearch: {}

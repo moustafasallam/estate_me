@@ -1,0 +1,17 @@
+to boot it up do the follow steps
+
+1- You need to have `docker` and `docker-compose` utitlies install on your machine.
+
+2- Open your terminal
+
+3- `docker-compose up` - building images and launching container will fire up.
+
+4- open a new terminal window
+
+5- `sudo docker exec -i -t spectre_web_1 /bin/bash`
+
+6- `bundle exec rake db:drop db:create db:migrate db:seed`
+
+7- `bundle exec whenever --update-crontab`
+
+8- all set you can now test the app by visiting the following url `localhost:3000`
