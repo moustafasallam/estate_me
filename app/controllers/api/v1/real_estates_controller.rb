@@ -1,6 +1,5 @@
 module Api::V1
 	class RealEstatesController < Api::BaseController
-		skip_before_action :verify_authenticity_token
 
 		def index
 			@real_estates = paginate RealEstate.all
@@ -12,8 +11,9 @@ module Api::V1
 			@real_estate.present? ? success() : error(404, "record no found!")
 		end
 
-		def create
-			data = params[:real_estate] || params
+		def search
+			options = {price_from: params[:price_from], price_to: params[:price_to], space_from: params[:space_from], space_to: params[:space_to]}
+			@real_estates = RealEstate.search(params[:query], options) || [] rescue []
 		end
 
 	end

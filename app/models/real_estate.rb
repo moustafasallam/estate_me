@@ -21,7 +21,7 @@ class RealEstate < ActiveRecord::Base
     mapping dynamic: false do
       indexes :estate_type, analyzer: 'english'
       indexes :price, type: :float
-      indexes :sq_feet, type: :float
+      indexes :sq_ft, type: :float
     end
   end
 
@@ -66,9 +66,8 @@ class RealEstate < ActiveRecord::Base
   # end
 
 
-  def self.search(query=nil, price_range=nil, space_range=nil, options={})
+  def self.search(query="", options={})
     options ||= {}
-
     search_definition = {
       query: {
         dis_max: {
@@ -78,21 +77,30 @@ class RealEstate < ActiveRecord::Base
          }
       }
     }
+    # unless options.blank?
+    #   search_definition[:from] = 0
+    #   search_definition[:size] = ELASTICSEARCH_MAX_RESULTS
+    # end
 
-    unless options.blank?
-      search_definition[:from] = 0
-      search_definition[:size] = ELASTICSEARCH_MAX_RESULTS
+    if query.present?
+      search_definition[:query][:dis_max][:queries] << {term: {estate_type: query}}
     end
-
-
-    search_definition[:query][:dis_max][:queries] << {term: {estate_type: query}}
-    search_definition[:query][:dis_max][:queries] << {range: {price: {lte: 265000.0, gte: 265000.0}}}
-
-
-    __elasticsearch__.search(search_definition)
+    if options[:price_from].present?
+      price_range = FloatRangeGenerator.new(options[:price_from], options[:price_to])
+      price_range.generate
+      search_definition[:query][:dis_max][:queries] << {range: {price: {gte: price_range.from, lte: price_range.to}}}
+    end
+    if options[:space_from].present?
+      space_range = FloatRangeGenerator.new(options[:space_from], options[:space_to], FloatRangeGenerator::SPACE)
+      space_range.generate
+      search_definition[:query][:dis_max][:queries] << {range: {sq_ft: {gte: space_range.from, lte: space_range.to}}}
+    end
+    puts "\n\ndata = #{search_definition.inspect}\n\n"
+    __elasticsearch__.search(search_definition).records
   end
 
 ############################################################
+
   def geo_location
     if self.latitude.blank? || self.longitude.blank?
       self.location
