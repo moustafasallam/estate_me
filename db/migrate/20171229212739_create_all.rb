@@ -12,9 +12,11 @@ class CreateAll < ActiveRecord::Migration
       t.datetime :sale_date
       t.integer :baths
       t.integer :beds
-      t.reference :city_id
+      t.integer :city_id, default: 0
       t.timestamps null: false
     end
+
+    add_index :real_estates, [:city_id]
 
     create_table :countries do |t|
       t.string :name
@@ -25,16 +27,19 @@ class CreateAll < ActiveRecord::Migration
     create_table :states do |t|
       t.string :name
       t.string :alpha2
-      t.reference :country_id
+      t.integer :country_id
       t.timestamps null: false
     end
 
+    add_index :states, [:country_id]
+
     create_table :cities do |t|
       t.string :name
-      t.string :alpha2
-      t.reference :state_id
+      t.integer :state_id
       t.timestamps null: false
     end
+
+    add_index :cities, [:state_id]
 
   end
 end

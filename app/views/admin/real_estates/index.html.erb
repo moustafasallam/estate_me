@@ -1,8 +1,5 @@
   <div class="row">
-    <div class="col s1">
-      <a href="<%= new_admin_group_event_path %>"><i class="medium material-icons">add</i></a>
-    </div>
-    <form class="col s11" action="/" method="get">
+    <form class="col s12" action="/" method="get">
       <div class="row">
         <div class="input-field col s9">
           <input placeholder="search" name="query" type="text" class="validate" value="<%= params[:query] %>">
@@ -19,11 +16,10 @@
       <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Description</th>
         <th>Location</th>
-        <th>State</th>
-        <th>Start/End</th>
-        <th>Actions</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Space</th>
       </tr>
     </thead>
     <tbody>
@@ -32,14 +28,10 @@
       <tr>
         <td><%= e.id %></td>
         <td><%= e.name %></td>
-        <td><%= e.description %></td>
         <td><%= e.location %></td>
-        <td><%= e.state %></td>
-        <td><%= e.start_date %><br/><%= e.end_date %></td>
-        <td>
-          <%= link_to "<i class='material-icons'>edit</i>".html_safe, edit_admin_group_event_path(id: e.id), class: "btn-flat" %>
-          <%= link_to "<i class='material-icons'>delete</i>".html_safe, admin_group_event_path(id: e.id), class: "btn-flat", method: :delete, data: {confirm: 'Are you sure?'} %>
-        </td>
+        <td><%= e.estate_type %></td>
+        <td><%= e.price %></td>
+        <td><%= e.sq_ft %></td>
       </tr>
 		<% end %>
 

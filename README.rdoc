@@ -8,10 +8,8 @@ to boot it up do the follow steps
 
 4- open a new terminal window
 
-5- `sudo docker exec -i -t spectre_web_1 /bin/bash`
+5- `sudo docker exec -i -t estateme_web_1 /bin/bash`
 
-6- `bundle exec rake db:drop db:create db:migrate db:seed`
+6- `bundle exec rake db:drop db:create db:migrate`
 
-7- `bundle exec whenever --update-crontab`
-
-8- all set you can now test the app by visiting the following url `localhost:3000`
+7- all set you can now test the app by visiting the following url `localhost:3000`

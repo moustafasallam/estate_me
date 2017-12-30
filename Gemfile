@@ -15,14 +15,13 @@ gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'jbuilder', '~> 2.0'
+
+gem 'rabl', '~> 0.11.6'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'faker', '~> 1.6', '>= 1.6.3'
 
-gem 'transitions', '~> 1.2', :require => ["transitions", "active_model/transitions"] # Lightweight state machine extracted from ActiveModel
 gem 'pry-rails', '~> 0.3.4' #enhanced ruby console
 
 gem 'elasticsearch-model'
@@ -31,6 +30,7 @@ gem 'elasticsearch-rails'
 gem 'materialize-sass', '~> 0.98.2' #materialize css based on material design
 
 gem 'geocoder', '~> 1.4', '>= 1.4.4'
+gem 'countries', '~> 1.1.0' #get all the countries codes and names
 
 gem 'kaminari', '~> 0.16.3' #used for backend paginations
 gem 'api-pagination', '~> 4.1.1' #api pagination
