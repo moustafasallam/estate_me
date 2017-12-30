@@ -95,8 +95,7 @@ class RealEstate < ActiveRecord::Base
       space_range.generate
       search_definition[:query][:dis_max][:queries] << {range: {sq_ft: {gte: space_range.from, lte: space_range.to}}}
     end
-    puts "\n\ndata = #{search_definition.inspect}\n\n"
-    __elasticsearch__.search(search_definition).records
+    __elasticsearch__.search(search_definition).page(options[:page]).records rescue []
   end
 
 ############################################################

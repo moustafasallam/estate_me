@@ -20,9 +20,10 @@ gem 'rabl', '~> 0.11.6'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'faker', '~> 1.6', '>= 1.6.3'
-
 gem 'pry-rails', '~> 0.3.4' #enhanced ruby console
+
+gem 'kaminari', '~> 0.16.3' #used for backend paginations
+gem 'api-pagination', '~> 4.1.1' #api pagination
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
@@ -32,20 +33,16 @@ gem 'materialize-sass', '~> 0.98.2' #materialize css based on material design
 gem 'geocoder', '~> 1.4', '>= 1.4.4'
 gem 'countries', '~> 1.1.0' #get all the countries codes and names
 
-gem 'kaminari', '~> 0.16.3' #used for backend paginations
-gem 'api-pagination', '~> 4.1.1' #api pagination
-
+gem 'web-console', '~> 2.0', group: :development
 group :development, :test do
   gem 'pry-byebug', '~> 3.4', '>= 3.4.2'
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :test do
 	gem 'rspec-rails', '~> 3.5'
-  gem 'factory_girl_rails'
   gem 'guard-rspec'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
 end
