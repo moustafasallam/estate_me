@@ -8,7 +8,7 @@ to boot it up do the follow steps
 
 4- open a new terminal window
 
-5- `sudo docker exec -i -t estateme_web_1 /bin/bash`
+5- `sudo docker exec -it estateme_web_1 /bin/bash`
 
 6- `bundle exec rake db:drop db:create db:migrate`
 
