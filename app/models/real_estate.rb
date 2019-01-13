@@ -17,9 +17,15 @@ class RealEstate < ActiveRecord::Base
 
 ################elastic search methods#######################
 
-  settings index: { number_of_shards: 1 } do
+  settings index: {number_of_shards: 1,
+    analysis: {
+      analyzer: {
+        string_lowercase: {tokenizer: 'standard', filter: ['lowercase', 'asciifolding'] }
+      }
+    }
+  } do
     mapping dynamic: false do
-      indexes :estate_type, analyzer: 'english'
+      indexes :estate_type, type: :text, analyzer: 'string_lowercase'
       indexes :price, type: :float
       indexes :sq_ft, type: :float
     end
@@ -66,7 +72,7 @@ class RealEstate < ActiveRecord::Base
   # end
 
 
-  def self.search(query="", options={})
+  def self.search(options={})
     options ||= {}
     search_definition = {
       query: {
@@ -77,13 +83,9 @@ class RealEstate < ActiveRecord::Base
          }
       }
     }
-    # unless options.blank?
-    #   search_definition[:from] = 0
-    #   search_definition[:size] = ELASTICSEARCH_MAX_RESULTS
-    # end
 
-    if query.present?
-      search_definition[:query][:dis_max][:queries] << {term: {estate_type: query}}
+    if options[:query].present?
+      search_definition[:query][:dis_max][:queries] << {match: {estate_type: options[:query]}}
     end
     if options[:price_from].present?
       price_range = FloatRangeGenerator.new(options[:price_from], options[:price_to])
@@ -95,7 +97,7 @@ class RealEstate < ActiveRecord::Base
       space_range.generate
       search_definition[:query][:dis_max][:queries] << {range: {sq_ft: {gte: space_range.from, lte: space_range.to}}}
     end
-    __elasticsearch__.search(search_definition).page(options[:page]).records rescue []
+    search_definition[:query][:dis_max][:queries].present? ? __elasticsearch__.search(search_definition).page(options[:page]).records : [] rescue []
   end
 
 ############################################################

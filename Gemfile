@@ -32,17 +32,20 @@ gem 'materialize-sass', '~> 0.98.2' #materialize css based on material design
 
 gem 'geocoder', '~> 1.4', '>= 1.4.4'
 gem 'countries', '~> 1.1.0' #get all the countries codes and names
+gem 'dotenv-rails', '~> 2.0'
 
 gem 'web-console', '~> 2.0', group: :development
 group :development, :test do
+  gem 'rspec-rails', '~> 3.5'
   gem 'pry-byebug', '~> 3.4', '>= 3.4.2'
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :test do
-	gem 'rspec-rails', '~> 3.5'
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers', '~> 3.1', '>= 3.1.2'
+  gem 'cucumber-rails', '~> 1.4', '>= 1.4.3'
+  gem 'selenium-webdriver', '~> 3.13'
   gem 'guard-rspec'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
 end
